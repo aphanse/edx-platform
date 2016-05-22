@@ -427,7 +427,7 @@ def _grade(student, course, keep_raw_scores):
         course.set_grading_policy(course.grading_policy)
         grade_summary = course.grader.grade(totaled_scores, generate_random_scores=settings.GENERATE_PROFILE_SCORES)
 
-        # We round the grade here, to make sure that the grade is an whole percentage and
+        # We round the grade here, to make sure that the grade is a whole percentage and
         # doesn't get displayed differently than it gets grades
         grade_summary['percent'] = round(grade_summary['percent'] * 100 + 0.05) / 100
 
