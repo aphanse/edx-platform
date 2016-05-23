@@ -703,6 +703,13 @@ def _progress(request, course_key, student_id):
     # additional DB lookup (this kills the Progress page in particular).
     student = User.objects.prefetch_related("groups").get(id=student.id)
 
+    # Force the course to be bound to the runtime, to access all field overrides.
+    field_data_cache = FieldDataCache([course], course.id, student)
+    course = get_module_for_descriptor(
+        student, request, course, field_data_cache, course.id, course=course
+    )
+    __ = course.course_id
+
     courseware_summary = grades.progress_summary(student, course)
     grade_summary = grades.grade(student, course)
     studio_url = get_studio_url(course, 'settings/grading')
