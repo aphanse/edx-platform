@@ -52,8 +52,6 @@ class FieldOverridePerformanceTestCase(ProceduralCourseTestMixin,
     # TEST_DATA must be overridden by subclasses
     TEST_DATA = None
 
-    ENABLED_CACHES = ['default', 'mongo_metadata_inheritance', 'loc_cache']
-
     def setUp(self):
         """
         Create a test client, course, and user.
@@ -186,35 +184,38 @@ class FieldOverridePerformanceTestCase(ProceduralCourseTestMixin,
                         with self.assertXBlockInstantiations(xblocks):
                             self.grade_course(self.course, view_as_ccx)
 
-    @ddt.data(*itertools.product(('no_overrides', 'ccx'), range(1, 4), (True, False), (True, False)))
-    @ddt.unpack
-    @override_settings(
-        FIELD_OVERRIDE_PROVIDERS=(),
-    )
-    def test_field_overrides(self, overrides, course_width, enable_ccx, view_as_ccx):
-        """
-        Test without any field overrides.
-        """
-        providers = {
-            'no_overrides': (),
-            'ccx': ('ccx.overrides.CustomCoursesForEdxOverrideProvider',)
-        }
-        if overrides == 'no_overrides' and view_as_ccx:
-            raise SkipTest("Can't view a ccx course if field overrides are disabled.")
-
-        if not enable_ccx and view_as_ccx:
-            raise SkipTest("Can't view a ccx course if ccx is disabled on the course")
-
-        if self.MODULESTORE == TEST_DATA_MONGO_MODULESTORE and view_as_ccx:
-            raise SkipTest("Can't use a MongoModulestore test as a CCX course")
-
-        with self.settings(FIELD_OVERRIDE_PROVIDERS=providers[overrides]):
-            default_queries, history_queries, reads, xblocks = self.TEST_DATA[
-                (overrides, course_width, enable_ccx, view_as_ccx)
-            ]
-            self.instrument_course_progress_render(
-                course_width, enable_ccx, view_as_ccx, default_queries, history_queries, reads, xblocks
-            )
+    # @ddt.data(*itertools.product(('no_overrides', 'ccx'), range(1, 4), (True, False), (True, False)))
+    # @ddt.unpack
+    # @override_settings(
+    #     FIELD_OVERRIDE_PROVIDERS=(),
+    # )
+    # def test_field_overrides(self, overrides, course_width, enable_ccx, view_as_ccx):
+    #     """
+    #     Test without any field overrides.
+    #     """
+    #     providers = {
+    #         'no_overrides': (),
+    #         'ccx': ('ccx.overrides.CustomCoursesForEdxOverrideProvider',)
+    #     }
+    #     if overrides == 'no_overrides' and view_as_ccx:
+    #         raise SkipTest("Can't view a ccx course if field overrides are disabled.")
+    #
+    #     if not enable_ccx and view_as_ccx:
+    #         raise SkipTest("Can't view a ccx course if ccx is disabled on the course")
+    #
+    #     if self.MODULESTORE == TEST_DATA_MONGO_MODULESTORE and view_as_ccx:
+    #         raise SkipTest("Can't use a MongoModulestore test as a CCX course")
+    #
+    #     with self.settings(
+    #         XBLOCK_FIELD_DATA_WRAPPERS=['lms.djangoapps.courseware.field_overrides:OverrideModulestoreFieldData.wrap'],
+    #         MODULESTORE_FIELD_OVERRIDE_PROVIDERS=providers[overrides],
+    #     ):
+    #         default_queries, history_queries, reads, xblocks = self.TEST_DATA[
+    #             (overrides, course_width, enable_ccx, view_as_ccx)
+    #         ]
+    #         self.instrument_course_progress_render(
+    #             course_width, enable_ccx, view_as_ccx, default_queries, history_queries, reads, xblocks
+    #         )
 
 
 class TestFieldOverrideMongoPerformance(FieldOverridePerformanceTestCase):
