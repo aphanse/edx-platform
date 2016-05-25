@@ -38,6 +38,7 @@ from instructor.views.api import require_global_staff
 import shoppingcart
 import survey.utils
 import survey.views
+from lms.djangoapps.ccx.utils import prep_course_for_grading
 from certificates import api as certs_api
 from openedx.core.djangoapps.models.course_details import CourseDetails
 from commerce.utils import EcommerceService
@@ -669,6 +670,7 @@ def _progress(request, course_key, student_id):
     Course staff are allowed to see the progress of students in their class.
     """
     course = get_course_with_access(request.user, 'load', course_key, depth=None, check_if_enrolled=True)
+    prep_course_for_grading(course, request)
 
     # check to see if there is a required survey that must be taken before
     # the user can access the course.
