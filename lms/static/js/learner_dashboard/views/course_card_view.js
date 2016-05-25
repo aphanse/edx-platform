@@ -19,7 +19,7 @@
 
                 tpl: _.template(pageTpl),
 
-                initialize: function(data) {
+                initialize: function() {
                     this.render();
                 },
 

@@ -1,13 +1,13 @@
-<img class="header-img" src="<%- imageUrl %>" />
+<img class="header-img" src="<%- image_url %>" alt="<%- display_name %>"/>
 <div class="course-details">
-    <h3><%- name %></h3>
+    <h3><%- display_name %></h3>
     <p><%- key %></p>
-    <% if(enrollmentStatus){ %>
-        <span><%- courseStart %> - <%-courseEnd %></span>
-        <a href="<%- coursewareUrl %>" class="cta">View Course</a>
+    <% if(enrollment_status){ %>
+        <span><%- course_start %> - <%-course_end %></span>
+        <a href="<%- courseware_url %>" class="cta"><%- gettext('View Course') %></a>
     <% }else{ %>
         <span><%- gettext('Not Yet Enrolled') %></span>
-        <a href="<%- marketingUrl %>" class="cta">Learn More</a>
+        <a href="<%- marketing_url %>" class="cta"><%- gettext('Learn More') %></a>
     <% } %>
 </div>
 <div class="action-msg-view"></div>

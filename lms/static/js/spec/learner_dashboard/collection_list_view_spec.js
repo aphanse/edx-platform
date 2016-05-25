@@ -131,7 +131,7 @@ define([
                 view.render();
                 expect(view).toBeDefined();
                 $title = view.$el.prev();
-                expect($title.html()).toBe(null);
+                expect($title.html()).not.toBeDefined();
             });
             it('should display screen reader header when provided', function(){
                 var $title, titleContext = {el:'h2', title:'list start'};

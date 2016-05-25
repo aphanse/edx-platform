@@ -1,9 +1,8 @@
 define([
         'backbone',
         'jquery',
-        'js/learner_dashboard/views/course_card_view',
-        'js/learner_dashboard/models/course_card_model'
-    ], function (Backbone, $, CourseCardView, CourseCardModel) {
+        'js/learner_dashboard/views/course_card_view'
+    ], function (Backbone, $, CourseCardView) {
         
         'use strict';
         
@@ -38,7 +37,7 @@ define([
             setupView = function(enrollment_status){
                 context.enrollment_status = enrollment_status;
                 setFixtures('<div class="course-card card"></div>');
-                courseCardModel = new CourseCardModel(context);
+                courseCardModel = new Backbone.Model(context);
                 view = new CourseCardView({
                     model: courseCardModel
                 });
@@ -62,7 +61,8 @@ define([
                 expect(view.$('.header-img').attr('src')).toEqual(context.image_url);
                 expect(view.$('.course-details h3').html()).toEqual(context.display_name);
                 expect(view.$('.course-details p').html()).toEqual(context.key);
-                expect(view.$('.course-details span').html()).toEqual(context.course_start + ' - ' + context.course_end);
+                expect(view.$('.course-details span').html())
+                    .toEqual(context.course_start + ' - ' + context.course_end);
                 expect(view.$('.course-details a').attr('href')).toEqual(context.courseware_url);
             });
 

@@ -7,7 +7,6 @@
             'gettext',
             'js/learner_dashboard/views/collection_list_view',
             'js/learner_dashboard/views/course_card_view',
-            'js/learner_dashboard/collections/course_card_collection',
             'text!../../../templates/learner_dashboard/program_details_view.underscore'
            ],
          function(
@@ -17,7 +16,6 @@
              gettext,
              CollectionListView,
              CourseCardView,
-             CourseCardCollection,
              pageTpl
          ) {
             return Backbone.View.extend({
@@ -40,7 +38,7 @@
                     new CollectionListView({
                         el: '.js-course-list',
                         childView: CourseCardView,
-                        collection: new CourseCardCollection(this.context.course_codes),
+                        collection: new Backbone.Collection(this.context.course_codes),
                         context: this.context,
                         titleContext: {
                             el: 'h2',

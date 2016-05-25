@@ -21,7 +21,7 @@
                 },
 
                 render: function() {
-                    var childList, tpl, titleHtml;
+                    var childList, tpl;
 
                     if (!this.collection.length) {
                         if (this.context.xseriesUrl) {
@@ -41,7 +41,7 @@
                         }, this);
 
                         if (this.titleContext){
-                            this.$el.before(this.getTitleHtml())
+                            this.$el.before(this.getTitleHtml());
                         }
                         this.$el.html(childList);
 
